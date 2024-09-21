@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { navItems } from "@/data";
 
@@ -10,6 +10,8 @@ import Approach from "@/components/Approach";
 import Experience from "@/components/Experience";
 import RecentProjects from "@/components/RecentProjects";
 import { FloatingNav } from "@/components/ui/FloatingNav";
+
+//issue in globe and canvas reveal effect -  they use three js
 
 const Home = () => {
   return (
