@@ -81,7 +81,7 @@ export const navItems = [
     {
       id: 2,
       title: " Real-time Weather Dashboard",
-      des: "A full-stack web application that displays current and hourly weather data based on user input, featuring secure JWT-based authentication and MySQL integration using Prisma ORM.",
+      des: "A full-stack web application that displays hourly data based on user input, featuring secure JWT-based authentication and MySQL integration using Prisma ORM.",
       img: "/Weather.png",
       iconLists: ["/re.svg", "/nodejs.svg","/sql-final.svg","/Jwt.png",],
       link: "https://github.com/Nirvuu/Weather-Application",
