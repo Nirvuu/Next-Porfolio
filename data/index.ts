@@ -1,3 +1,4 @@
+
 export const navItems = [
     { name: "About", link: "#about" },
     { name: "Projects", link: "#projects" },
@@ -74,7 +75,7 @@ export const navItems = [
       id: 1,
       title: "Simple Blog Application",
       des: "A React-based blog application that demonstrates basic CRUD functionality. Users can view, read, and delete blog posts, with data managed through a simple REST API using JSON Server.",
-      img: "/Addblog.png",
+      img: "/Bloggg.jfif",
       iconLists: ["/html.svg","/css3-2.svg","/js.svg", "/re.svg"],
       link: "https://github.com/Nirvuu/Simple-Blog-App",
     },
@@ -82,7 +83,7 @@ export const navItems = [
       id: 2,
       title: " Real-time Weather Dashboard",
       des: "A full-stack web application that displays hourly data based on user input, featuring secure JWT-based authentication and MySQL integration using Prisma ORM.",
-      img: "/Weather.png",
+      img: "/Weatherr.jfif",
       iconLists: ["/re.svg", "/nodejs.svg","/sql-final.svg","/Jwt.png",],
       link: "https://github.com/Nirvuu/Weather-Application",
     },
