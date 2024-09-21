@@ -1,4 +1,4 @@
-"use client"
+
 
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -187,8 +187,7 @@ const AceternityIcon = ({ order }: { order: string }) => {
   );
 };
 
-export const Icon = ({ className, ...rest }: { className: string; [key: string]: any }) => {
-
+export const Icon = ({ className, ...rest }: any) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
