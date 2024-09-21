@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React from "react";
 import {
   motion,
   useAnimationFrame,
@@ -7,17 +7,8 @@ import {
   useMotionValue,
   useTransform,
 } from "framer-motion";
+import { useRef } from "react";
 import { cn } from "@/lib/utils/cn";
-
-interface ButtonProps extends React.ComponentPropsWithoutRef<"button"> {
-  borderRadius?: string;
-  children: React.ReactNode;
-  as?: React.ElementType; 
-  containerClassName?: string;
-  borderClassName?: string;
-  duration?: number;
-  className?: string;
-}
 
 export function Button({
   borderRadius = "1.75rem",
@@ -28,7 +19,16 @@ export function Button({
   duration,
   className,
   ...otherProps
-}: ButtonProps) {
+}: {
+  borderRadius?: string;
+  children: React.ReactNode;
+  as?: any;
+  containerClassName?: string;
+  borderClassName?: string;
+  duration?: number;
+  className?: string;
+  [key: string]: any;
+}) {
   return (
     <Component
       className={cn(
@@ -42,7 +42,7 @@ export function Button({
       {...otherProps}
     >
       <div
-        className="absolute inset-0 rounded-[1.75rem]" 
+        className="absolute inset-0 rounde-[1.75rem]"
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         <MovingBorder duration={duration} rx="30%" ry="30%">
@@ -70,22 +70,20 @@ export function Button({
   );
 }
 
-interface MovingBorderProps {
-  children: React.ReactNode;
-  duration?: number;
-  rx?: string;
-  ry?: string;
-  [key: string]: unknown; // Changed to unknown
-}
-
 export const MovingBorder = ({
   children,
   duration = 2000,
   rx,
   ry,
   ...otherProps
-}: MovingBorderProps) => {
-  const pathRef = useRef<SVGRectElement | null>(null); // More specific than `any`
+}: {
+  children: React.ReactNode;
+  duration?: number;
+  rx?: string;
+  ry?: string;
+  [key: string]: any;
+}) => {
+  const pathRef = useRef<any>();
   const progress = useMotionValue<number>(0);
 
   useAnimationFrame((time) => {
