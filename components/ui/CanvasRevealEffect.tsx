@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils/cn";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useEffect } from "react";
 import * as THREE from "three";
 
 export const CanvasRevealEffect = ({
@@ -23,6 +23,41 @@ export const CanvasRevealEffect = ({
   dotSize?: number;
   showGradient?: boolean;
 }) => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+  
+    const renderer = new THREE.WebGLRenderer({ canvas });
+    rendererRef.current = renderer;
+  
+    const handleContextLost = (event: WebGLContextEvent) => {
+      event.preventDefault();
+      console.error("WebGL context lost. Trying to recover...");
+      // Optionally display some fallback UI
+    };
+  
+    const handleContextRestored = () => {
+      console.log("WebGL context restored. Reinitializing...");
+      // Reinitialize the WebGL renderer and scene here if needed
+    };
+  
+    // Attach WebGL event listeners
+    canvas.addEventListener("webglcontextlost" as any, handleContextLost, false);
+    canvas.addEventListener("webglcontextrestored" as any, handleContextRestored, false);
+  
+    return () => {
+      canvas.removeEventListener("webglcontextlost" as any, handleContextLost);
+      canvas.removeEventListener("webglcontextrestored" as any, handleContextRestored);
+      if (renderer) {
+        renderer.dispose();
+      }
+    };
+  }, []);
+  
+
   return (
     <div className={cn("h-full relative bg-white w-full", containerClassName)}>
       <div className="h-full w-full">
@@ -32,12 +67,9 @@ export const CanvasRevealEffect = ({
           opacities={
             opacities ?? [0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.8, 0.8, 0.8, 1]
           }
-          shader={`
-              float animation_speed_factor = ${animationSpeed.toFixed(1)};
-              float intro_offset = distance(u_resolution / 2.0 / u_total_size, st2) * 0.01 + (random(st2) * 0.15);
-              opacity *= step(intro_offset, u_time * animation_speed_factor);
-              opacity *= clamp((1.0 - step(intro_offset + 0.1, u_time * animation_speed_factor)) * 1.25, 1.0, 1.25);
-            `}
+          shader={`float animation_speed_factor = ${animationSpeed.toFixed(
+            1
+          )}; float intro_offset = distance(u_resolution / 2.0 / u_total_size, st2) * 0.01 + (random(st2) * 0.15); opacity *= step(intro_offset, u_time * animation_speed_factor); opacity *= clamp((1.0 - step(intro_offset + 0.1, u_time * animation_speed_factor)) * 1.25, 1.0, 1.25);`}
           center={["x", "y"]}
         />
       </div>
@@ -296,6 +328,7 @@ const Shader: React.FC<ShaderProps> = ({ source, uniforms, maxFps = 60 }) => {
     </Canvas>
   );
 };
+
 interface ShaderProps {
   source: string;
   uniforms: {
